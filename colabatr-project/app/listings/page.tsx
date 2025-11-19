@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
-
+import { SiteFooter } from '@/components/footer/site-footer'
 const mockListings = [
   {
     id: 1,
@@ -222,50 +222,9 @@ export default function Listings() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white mt-16 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-4 gap-8 mb-8">
-            <div>
-              <h4 className="font-bold mb-4">About</h4>
-              <ul className="space-y-2 text-gray-400 text-sm">
-                <li><Link href="#" className="hover:text-white">About Us</Link></li>
-                <li><Link href="#" className="hover:text-white">Blog</Link></li>
-                <li><Link href="#" className="hover:text-white">Careers</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold mb-4">Resources</h4>
-              <ul className="space-y-2 text-gray-400 text-sm">
-                <li><Link href="#" className="hover:text-white">Guide</Link></li>
-                <li><Link href="#" className="hover:text-white">Help</Link></li>
-                <li><Link href="#" className="hover:text-white">Contact</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold mb-4">Legal</h4>
-              <ul className="space-y-2 text-gray-400 text-sm">
-                <li><Link href="#" className="hover:text-white">Privacy</Link></li>
-                <li><Link href="#" className="hover:text-white">Terms</Link></li>
-                <li><Link href="#" className="hover:text-white">Security</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold mb-4">Follow</h4>
-              <ul className="space-y-2 text-gray-400 text-sm">
-                <li><Link href="#" className="hover:text-white">Twitter</Link></li>
-                <li><Link href="#" className="hover:text-white">Instagram</Link></li>
-                <li><Link href="#" className="hover:text-white">LinkedIn</Link></li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 pt-8 flex justify-between items-center">
-            <p className="text-gray-400 text-sm">&copy; 2024 Colabatr. All rights reserved.</p>
-            <div className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
-              Colabatr
-            </div>
-          </div>
-        </div>
-      </footer>
+      
+      <SiteFooter />
     </div>
+   
   )
 }
