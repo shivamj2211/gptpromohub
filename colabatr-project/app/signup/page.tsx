@@ -29,10 +29,12 @@ export default function Signup() {
     password: false,
     confirmPassword: false,
     phone: false,
+    username: false,
   })
   const [phoneValidationError, setPhoneValidationError] = useState('')
   const [passwordValidationError, setPasswordValidationError] = useState('')
   const [emailValidationError, setEmailValidationError] = useState('')
+  const [usernameValidationError, setUsernameValidationError] = useState('')
 
   const validateEmail = (email: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -87,6 +89,14 @@ export default function Signup() {
     }
   }
 
+  const validateUsername = (usr: string) => {
+    if (usr.length < 6 || usr.length > 18) {
+      setUsernameValidationError('Username must be between 6 and 18 characters long.')
+    } else {
+      setUsernameValidationError('')
+    }
+  }
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     if (name === 'password') {
@@ -127,12 +137,22 @@ export default function Signup() {
     }
   }
 
-  const handleClaimUsername = () => {
-    if (username.length > 0) {
-      // Username claimed successfully - redirect to location page
+ const handleClaimUsername = () => {
+  if (username.length > 0) {
+    // Route based on user type selected during signup
+    if (formData.userType === 'seller') {
+      // Influencer flow → location page + influencer journey bar
       router.push('/location')
+    } else if (formData.userType === 'buyer') {
+      // Brand flow → start brand onboarding journey
+      router.push('/brand/heretodo')
+    } else {
+      // Fallback (in case userType somehow empty)
+      router.push('/')
     }
   }
+}
+
 
   const passwordsMatch = formData.password === formData.confirmPassword && formData.password.length > 0
   const passwordMatchError = formData.confirmPassword.length > 0 && !passwordsMatch
@@ -329,6 +349,9 @@ export default function Signup() {
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   onBlur={() => handleBlur('confirmPassword')}
+                  onPaste={(e) => e.preventDefault()}
+                  onCopy={(e) => e.preventDefault()}
+                  onCut={(e) => e.preventDefault()}
                   placeholder="••••••••"
                   className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 pr-10 ${
                     confirmPasswordError || passwordMatchError
@@ -518,7 +541,12 @@ export default function Signup() {
                   <input
                     type="text"
                     value={username}
-                    onChange={(e) => setUsername(e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, ''))}
+                    onChange={(e) => {
+                      const val = e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, '')
+                      setUsername(val)
+                      validateUsername(val)
+                    }}
+                    onBlur={() => validateUsername(username)}
                     placeholder="your_name"
                     className="flex-1 py-4 outline-none bg-transparent text-gray-900 placeholder-gray-400 text-lg pr-4"
                   />
@@ -528,6 +556,9 @@ export default function Signup() {
                 <p className="text-gray-600 text-sm">
                   Use only letters, numbers, and underscores. You can&apos;t change this later.
                 </p>
+                {usernameValidationError && (
+                  <p className="text-red-500 text-sm mt-1">{usernameValidationError}</p>
+                )}
 
                 {/* Live preview */}
                 {username.length > 0 && (
